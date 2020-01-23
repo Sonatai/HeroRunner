@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class MapController : MonoBehaviour
 {
@@ -38,6 +39,18 @@ public class MapController : MonoBehaviour
         }
  
         instance = this;
+    }
+
+    public void mapFog(bool isFoggy)
+    {
+        foreach (mapObject o in objects)
+        {
+            float alpha = 1;
+            if (isFoggy)
+                alpha = 0;
+            
+            o.indicator.GetComponent<Image>().DOColor(new Color(o.color.r, o.color.g, o.color.b, alpha), 1f);
+        }
     }
 
     void Start()

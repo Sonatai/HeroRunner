@@ -6,12 +6,12 @@ using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
-
+    public static PlayerController i;
     public Animation animation;
     public CharacterController cController;
     private Vector3 cPosition;
 
-    private bool isMoving = true;
+    public bool isMoving = true;
     
     private bool isRotating = false;
     private bool searchForCenter = false;
@@ -21,10 +21,14 @@ public class PlayerController : MonoBehaviour
     private float turnSpeed = 0.2f;
     private float runSpeed = 0.1f;
 
-    void Start()
+    private float currentEarthAcc = 0;
+    private bool isJumping = true;
+    private float jumpPressedTime = 0;
+
+    void Awake()
     {
-        animation.wrapMode = WrapMode.Loop;
-        animation.Play("run");
+        if (i == null)
+            i = this;
     }
 
     void FixedUpdate()
@@ -37,10 +41,29 @@ public class PlayerController : MonoBehaviour
         {
             centerAmount = 0;
         }
-        if(isMoving)
-            cController.Move(transform.forward*runSpeed +  transform.right*centerAmount);
 
-        //centerDiff = 0;
+
+        currentEarthAcc += Globals.gravity;
+
+        if(isMoving)
+            cController.Move(transform.forward*runSpeed +  transform.right*centerAmount + transform.up*currentEarthAcc);
+
+    }
+
+    public void Reset()
+    {
+        isMoving = false;
+        transform.position = new Vector3(1.4f,15.5f,2f);
+        MapController.i.mapFog(false);
+        DOTween.Sequence().AppendInterval(0.1f).AppendCallback(delegate
+        {
+            isMoving = true;
+            isJumping = true;
+            currentEarthAcc = 0;
+            animation.wrapMode = WrapMode.Once;
+            animation.Play("flip");
+            jumpPressedTime = Time.time;
+        });
     }
 
     private void Update()
@@ -48,9 +71,19 @@ public class PlayerController : MonoBehaviour
         cPosition = transform.position;
         bool leftWall = false;
         bool rightWall = false;
-        Debug.DrawRay(cPosition, transform.forward*3);
+        
+        if (cController.isGrounded && isJumping && (Time.time - jumpPressedTime) >= 0.1f)
+        {
+            Debug.Log("JUMP LANDED");
+            animation.wrapMode = WrapMode.Loop;
+            animation.Play("run");
+            isJumping = false;
+            MapController.i.mapFog(false);
+        }
         if (!isRotating)
         {
+
+
             if (!Physics.Raycast(cPosition, transform.right, 2.5f))
             {
                 if (Input.GetKeyDown("d"))
@@ -82,19 +115,46 @@ public class PlayerController : MonoBehaviour
                 leftWall = true;
             }
 
-            if (Physics.Raycast(cPosition, transform.forward, 1.5f) && leftWall && rightWall) //player hits dead end
+            if (Input.GetKeyDown("m") && isJumping == false)
+            {
+                isJumping = true;
+                animation.Stop();
+                animation.wrapMode = WrapMode.Once;
+                animation.Play("flip");
+                jumpPressedTime = Time.time;
+                currentEarthAcc = 0.3f;
+                MapController.i.mapFog(true);
+            }
+
+            if (Physics.Raycast(cPosition, transform.forward, 1f) && leftWall && rightWall &&!isRotating) //player hits dead end
             {
                 isMoving = false;
-                transform.DOLocalRotate(transform.up * (transform.rotation.eulerAngles.y - 180f), turnSpeed*2);//.OnComplete(delegate() { isRotating = false;
-                //     searchForCenter = true;
-                //     isMoving = true;
-                // });
+                isRotating = true;
+                transform.DOLocalRotate(transform.up * (transform.rotation.eulerAngles.y - 180f), turnSpeed*2).OnComplete(delegate() { isRotating = false;
+                     searchForCenter = true;
+                     isMoving = true;
+                     isRotating = false;
+                });
             }
             
             if(searchForCenter && !isRotating && rightWall && leftWall)
                 center();
+
+            if(!isRotating)
+                snapRotation();
         }
 
+    }
+
+    private void snapRotation()
+    {
+
+        float angle = transform.rotation.eulerAngles.y;
+        angle = Mathf.Round(angle / 90.0f) * 90.0f;
+        if (Math.Abs((double)transform.rotation.eulerAngles.y - (double)angle) > 0.1f)
+        {
+            transform.DOLocalRotate(transform.up * (angle), turnSpeed*2);
+        }
     }
 
     private void center()
@@ -121,9 +181,5 @@ public class PlayerController : MonoBehaviour
         currentCenterFrames = 0;
         searchForCenter = false;
     }
-    
-//    private void OnTriggerEnter(Collider other)
-//    {
-//        cController.Move(transform.up*10f);
-//    }
+
 }
