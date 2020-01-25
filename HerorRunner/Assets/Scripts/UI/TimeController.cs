@@ -48,8 +48,8 @@ public class TimeController : MonoBehaviour
             timeLeft -= Time.deltaTime;
         }
     }
-
     public void startTimer(int seconds)
+
     {
         maxTime = seconds;
         timeLeft = maxTime;
