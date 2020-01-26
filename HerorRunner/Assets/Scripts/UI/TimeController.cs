@@ -56,4 +56,14 @@ public class TimeController : MonoBehaviour
         timeText.text = ((int)timeLeft).ToString();
         timerStarted = true;
     }
+
+    public float MaxTime
+    {
+        get => maxTime;
+    }
+
+    public float TimeLeft
+    {
+        get => timeLeft;
+    }
 }
