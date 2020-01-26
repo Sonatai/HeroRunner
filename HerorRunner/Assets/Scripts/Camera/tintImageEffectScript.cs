@@ -6,7 +6,11 @@ using UnityEngine;
 
 public class tintImageEffectScript : MonoBehaviour {
 
-   public Material material;
+   [Header("Properties")]
+   [SerializeField]
+   private Material material;
+
+   [SerializeField] private TimeController controller;
    
    void Start() 
    {
@@ -17,9 +21,12 @@ public class tintImageEffectScript : MonoBehaviour {
          return;
       }
 
-      //TODO: Set value equal to the time bar
-      float value = 0;
-      material.SetFloat("_Multilayer",value);
+   }
+
+   private void Update()
+   {
+      material.SetFloat("_MaxTime",controller.MaxTime);
+      material.SetFloat("_TimeLeft",controller.TimeLeft);
    }
 
    void OnRenderImage(RenderTexture source, RenderTexture destination)
