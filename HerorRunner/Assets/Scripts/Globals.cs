@@ -8,11 +8,11 @@ public class Globals : MonoBehaviour
     public static int timerSeconds = 50;
     public static float gravity = -0.005f;
 
-    public static float[] gridBorder =
+    public static int[] gridBorder =
     {
-        32,
-        -22,
         -35,
-        16
+        16,
+        32,
+        -22
     };
 }

@@ -38,9 +38,21 @@ public class DrugController : MonoBehaviour
     private void spawn()
     {
         TimeController.i.startTimer(Globals.timerSeconds);
-        Vector2 point;
-        while ((point = spawnLocations[Random.Range(0, spawnLocations.Length)]).Equals(lastPosition)) ;
-        transform.position = new Vector3(point.x,1.4f,point.y);
+        //Vector2 point;
+        //while ((point = spawnLocations[Random.Range(0, spawnLocations.Length)]).Equals(lastPosition)) ;
+        int[] spawnpoint = calculateSpawnpoint();
+        transform.position = new Vector3(spawnpoint[0],1.4f,spawnpoint[1]);
+    }
+
+    private int[] calculateSpawnpoint()
+    {
+        int[] spawnpoint =
+        {
+            Random.Range(Globals.gridBorder[0],Globals.gridBorder[1]),
+            Random.Range(Globals.gridBorder[2],Globals.gridBorder[3])
+        };
+        Debug.Log("New Position: X/"+spawnpoint[0] + " Z/" + spawnpoint[1]);
+        return spawnpoint;
     }
 
     private void OnTriggerEnter(Collider other)

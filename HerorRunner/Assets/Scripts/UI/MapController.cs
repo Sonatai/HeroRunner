@@ -69,8 +69,8 @@ public class MapController : MonoBehaviour
     {
         foreach (mapObject m in objects)
         { 
-            float x = ExtensionMethods.remap(m.obj.transform.position.x,-36f,38.7f,-450f,450f);
-            float y = ExtensionMethods.remap(m.obj.transform.position.z,-41f,33.7f,-450f,450f);
+            float x = ExtensionMethods.remap(m.obj.transform.position.x,Globals.gridBorder[0],Globals.gridBorder[1],-450f,450f);
+            float y = ExtensionMethods.remap(m.obj.transform.position.z,Globals.gridBorder[2],Globals.gridBorder[3],-450f,450f);
             m.t.localPosition = new Vector3(x,y,0);
         }
     }
