@@ -41,7 +41,7 @@ public class DrugController : MonoBehaviour
         //Vector2 point;
         //while ((point = spawnLocations[Random.Range(0, spawnLocations.Length)]).Equals(lastPosition)) ;
         int[] spawnpoint = calculateSpawnpoint();
-        transform.position = new Vector3(spawnpoint[0],1.4f,spawnpoint[1]);
+        transform.position = new Vector3(spawnpoint[0],1.6f,spawnpoint[1]);
     }
 
     private int[] calculateSpawnpoint()

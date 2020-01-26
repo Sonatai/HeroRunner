@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,7 +28,10 @@ public class GameController : MonoBehaviour
 
     public void Reset()
     {
+        DOTween.KillAll();
         PlayerController.i.Reset();
         DrugController.i.Reset();
+        CameraShaderController.i.Reset();
+        
     }
 }
