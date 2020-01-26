@@ -38,6 +38,8 @@ public class TimeController : MonoBehaviour
         
         timeElapsedBar.sizeDelta = new Vector3(maxWidth*(timeLeft/maxTime),14);
         timeText.text = ((int)timeLeft).ToString();
+        if ((timeLeft / maxTime) < 0.3f && (timeLeft / maxTime) > 0.29f)
+            CameraShaderController.i.startTintAnimation();
         if (timeLeft <= 0)
         {
             timerStarted = false;
