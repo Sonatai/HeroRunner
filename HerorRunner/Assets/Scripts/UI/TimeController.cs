@@ -29,7 +29,7 @@ public class TimeController : MonoBehaviour
         maxWidth = timeElapsedBar.sizeDelta.x;
         timerStarted = false;
         
-        startTimer(Globals.timerSeconds);
+        //startTimer(Globals.timerSeconds);
     }
 
     void FixedUpdate()

@@ -37,7 +37,7 @@ public class DrugController : MonoBehaviour
 
     private void spawn()
     {
-        TimeController.i.startTimer(Globals.timerSeconds);
+        //TimeController.i.startTimer(Globals.timerSeconds);
         Vector2 point;
         while ((point = spawnLocations[Random.Range(0, spawnLocations.Length)]).Equals(lastPosition)) ;
         transform.position = new Vector3(point.x,1.4f,point.y);

@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        currentEarthAcc += Globals.gravity;
+        //currentEarthAcc += Globals.gravity;
 
         if(isMoving)
             cController.Move(transform.forward*runSpeed +  transform.right*centerAmount + transform.up*currentEarthAcc);
