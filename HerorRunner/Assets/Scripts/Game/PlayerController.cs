@@ -13,6 +13,10 @@ public class PlayerController : MonoBehaviour
     public Camera camera;
     private Vector3 cPosition;
 
+    public AudioSource audioSource;
+    public AudioClip smallJumpSound;
+    public AudioClip bigJumpSound;
+
     public bool isMoving = true;
     
     private bool isRotating = false;
@@ -136,6 +140,8 @@ public class PlayerController : MonoBehaviour
                 currentEarthAcc = 0.2f;
                 //MapController.i.mapFog(true);
                 TimeController.i.reduceTime(10);
+                audioSource.PlayOneShot(smallJumpSound);
+
             }
             
             if (Input.GetKeyDown("m") && isJumping == false && Globals.bigJumps > 0)
@@ -149,6 +155,7 @@ public class PlayerController : MonoBehaviour
                 currentEarthAcc = 1f;
                 MapController.i.mapFog(true);
                 camera.transform.DOLocalRotate(originalRoatation.eulerAngles + new Vector3(30, 0, 0),1f);
+                audioSource.PlayOneShot(bigJumpSound);
             }
             
             if (Input.GetKeyDown("n") && isSpeeding == false && Globals.speedUps > 0)

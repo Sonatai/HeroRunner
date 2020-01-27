@@ -12,6 +12,7 @@ public class DrugController : MonoBehaviour
     public Vector2[] spawnLocations;
     private float timer = 0f;
     private Vector2 lastPosition;
+    public AudioSource audioSource;
 
     public static DrugController i;
     
@@ -48,6 +49,7 @@ public class DrugController : MonoBehaviour
     {
         if (other.gameObject.name.Equals("PlayerContainer"))
         {
+            audioSource.PlayOneShot(audioSource.clip);
             Globals.injections++;
             spawn();
         }

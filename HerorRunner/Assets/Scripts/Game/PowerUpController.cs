@@ -10,7 +10,10 @@ public class PowerUpController : MonoBehaviour
     private float timer = 0f;
     public GameObject joint;
     public GameObject bottle;
+    public BoxCollider collider;
     private int type = 0;
+    public AudioSource audioSource;
+    public AudioClip soundclip;
 
     public Action onTouch;
 
@@ -41,7 +44,10 @@ public class PowerUpController : MonoBehaviour
         if (other.gameObject.name.Equals("PlayerContainer"))
         {
             onTouch.Invoke();
-            Destroy(gameObject);
+            audioSource.PlayOneShot(soundclip);
+            Destroy(joint);
+            Destroy(bottle);
+            Destroy(collider);
         }
     }
 
