@@ -15,4 +15,8 @@ public class Globals : MonoBehaviour
         32,
         -22
     };
+
+    public static int injections = 0;
+    public static int bigJumps = 0;
+    public static int speedUps = 0;
 }

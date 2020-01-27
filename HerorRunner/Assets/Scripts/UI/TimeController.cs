@@ -59,6 +59,11 @@ public class TimeController : MonoBehaviour
         timerStarted = true;
     }
 
+    public void reduceTime(float time)
+    {
+        timeLeft -= time;
+    }
+
     public float MaxTime
     {
         get => maxTime;

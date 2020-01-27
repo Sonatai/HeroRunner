@@ -9,10 +9,8 @@ public class DrugController : MonoBehaviour
 {
 
     public GameObject drugModel;
-    public Text infoText;
     public Vector2[] spawnLocations;
     private float timer = 0f;
-    private int injectionsCount = 0;
     private Vector2 lastPosition;
 
     public static DrugController i;
@@ -40,35 +38,23 @@ public class DrugController : MonoBehaviour
         TimeController.i.startTimer(Globals.timerSeconds);
         //Vector2 point;
         //while ((point = spawnLocations[Random.Range(0, spawnLocations.Length)]).Equals(lastPosition)) ;
-        int[] spawnpoint = calculateSpawnpoint();
-        transform.position = new Vector3(spawnpoint[0],1.6f,spawnpoint[1]);
+        Vector2 spawnpoint = GameController.calculateSpawnpoint();
+        transform.position = new Vector3(spawnpoint.x,1.6f,spawnpoint.y);
     }
 
-    private int[] calculateSpawnpoint()
-    {
-        int[] spawnpoint =
-        {
-            Random.Range(Globals.gridBorder[0],Globals.gridBorder[1]),
-            Random.Range(Globals.gridBorder[2],Globals.gridBorder[3])
-        };
-        Debug.Log("New Position: X/"+spawnpoint[0] + " Z/" + spawnpoint[1]);
-        return spawnpoint;
-    }
+    
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.name.Equals("PlayerContainer"))
         {
-            injectionsCount++;
-            infoText.text = "Injections: " + injectionsCount;
+            Globals.injections++;
             spawn();
         }
     }
 
     public void Reset()
     {
-        injectionsCount = 0;
-        infoText.text = "Injections: " + injectionsCount;
         spawn();
     }
 }

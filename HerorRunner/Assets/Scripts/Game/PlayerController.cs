@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 using DG.Tweening;
 
@@ -9,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public static PlayerController i;
     public Animation animation;
     public CharacterController cController;
+    public Camera camera;
     private Vector3 cPosition;
 
     public bool isMoving = true;
@@ -23,12 +25,19 @@ public class PlayerController : MonoBehaviour
 
     private float currentEarthAcc = 0;
     private bool isJumping = true;
+    private bool isSpeeding = false;
     private float jumpPressedTime = 0;
+    private Quaternion originalRoatation;
 
     void Awake()
     {
         if (i == null)
             i = this;
+    }
+
+    private void Start()
+    {
+        originalRoatation = camera.transform.localRotation;
     }
 
     void FixedUpdate()
@@ -59,6 +68,7 @@ public class PlayerController : MonoBehaviour
         {
             isMoving = true;
             isJumping = true;
+            runSpeed = 0.1f;
             currentEarthAcc = 0;
             animation.wrapMode = WrapMode.Once;
             animation.Play("flip");
@@ -75,6 +85,7 @@ public class PlayerController : MonoBehaviour
         if (cController.isGrounded && isJumping && (Time.time - jumpPressedTime) >= 0.1f)
         {
             Debug.Log("JUMP LANDED");
+            camera.transform.DOLocalRotate(originalRoatation.eulerAngles,1f);
             animation.wrapMode = WrapMode.Loop;
             animation.Play("run");
             isJumping = false;
@@ -115,15 +126,42 @@ public class PlayerController : MonoBehaviour
                 leftWall = true;
             }
 
-            if (Input.GetKeyDown("m") && isJumping == false)
+            if (Input.GetKeyDown("space") && isJumping == false)
             {
                 isJumping = true;
                 animation.Stop();
                 animation.wrapMode = WrapMode.Once;
                 animation.Play("flip");
                 jumpPressedTime = Time.time;
-                currentEarthAcc = 0.3f;
+                currentEarthAcc = 0.2f;
+                //MapController.i.mapFog(true);
+                TimeController.i.reduceTime(10);
+            }
+            
+            if (Input.GetKeyDown("m") && isJumping == false && Globals.bigJumps > 0)
+            {
+                Globals.bigJumps--;
+                isJumping = true;
+                animation.Stop();
+                animation.wrapMode = WrapMode.Once;
+                animation.Play("flip");
+                jumpPressedTime = Time.time;
+                currentEarthAcc = 1f;
                 MapController.i.mapFog(true);
+                camera.transform.DOLocalRotate(originalRoatation.eulerAngles + new Vector3(30, 0, 0),1f);
+            }
+            
+            if (Input.GetKeyDown("n") && isSpeeding == false && Globals.speedUps > 0)
+            {
+                Globals.speedUps--;
+                isSpeeding = true;
+                runSpeed = 0.3f;
+                DOTween.Sequence().AppendInterval(10f).AppendCallback(delegate
+                {
+                    runSpeed = 0.1f;
+                    isSpeeding = false;
+                });
+
             }
 
             if (Physics.Raycast(cPosition, transform.forward, 1f) && leftWall && rightWall &&!isRotating) //player hits dead end
