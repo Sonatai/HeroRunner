@@ -33,7 +33,6 @@ public class GameController : MonoBehaviour
         foreach (Transform spawnpoint in listOfSpawnpoints)
         {
             useableSpawnpoints.Add(spawnpoint);
-            Debug.Log(useableSpawnpoints[useableSpawnpoints.Count-1]);
         }
         TimeController.i.onFinished = delegate()
         {

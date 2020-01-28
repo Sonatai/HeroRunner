@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Raymarching
-  m_Shader: {fileID: 4800000, guid: 16182037377353b40b12b58191f344e8, type: 3}
+  m_Name: CamMat
+  m_Shader: {fileID: 4800000, guid: 41b28d4bf27e1ff4caafb886f1ef705d, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -40,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: e6b0182a3d8bb5c4ca81ec490c563361, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -63,6 +63,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _MaxTime: 0
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -70,6 +71,7 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _TimeLeft: 0
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
