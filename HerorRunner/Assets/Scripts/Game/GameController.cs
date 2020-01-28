@@ -17,9 +17,9 @@ public class GameController : MonoBehaviour
     [SerializeField] private List<Transform> listOfSpawnpoints;
     private static List<Transform> useableSpawnpoints;
 
-    private Action onSpeedUp = delegate { Globals.speedUps++; };
+    private Action onSpeedUp = delegate { Globals.bigJumps++; };
     
-    private Action onBigJump = delegate { Globals.bigJumps++; };
+    private Action onBigJump = delegate { Globals.speedUps++; };
     
     void Awake()
     {
@@ -47,7 +47,7 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        infoText.text = "Injections: " + Globals.injections + "\nBig Jumps [m]: " + Globals.bigJumps  + "\nSpeed Ups [n]: " + Globals.speedUps;
+        infoText.text = "Injections: " + Globals.injections + "\nWeed [m]: " + Globals.bigJumps  + "\nSpeed [n]: " + Globals.speedUps;
     }
 
     public void Reset()
