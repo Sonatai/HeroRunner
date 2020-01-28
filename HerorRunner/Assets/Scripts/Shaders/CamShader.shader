@@ -10,16 +10,15 @@ Shader "Hidden/Rainbow"
     SubShader
     {
 
-        Cull Off 
-        ZWrite Off 
+        Cull Back
+        ZWrite On 
         ZTest Always
+        Lighting On
         
 
          Tags
         {
-            "Queue" = "Transparent"
-            "IgnoreProjector" = "True"
-            "RenderType" = "Transparent"
+            "RenderType" = "Opaque"
         }
         Blend SrcAlpha OneMinusSrcAlpha
 
@@ -31,6 +30,7 @@ Shader "Hidden/Rainbow"
            
              
             #include "UnityCG.cginc"
+            #include "AutoLight.cginc"
             
             sampler2D _MainTex;
             float _MaxTime;
@@ -41,20 +41,27 @@ Shader "Hidden/Rainbow"
             struct appdata
             {
                 float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
+                float3 uv : TEXCOORD0;
+                float3 ambient : TEXCOORD1;
             };
 
             struct v2f
             {
-                float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
+                float3 uv : TEXCOORD0;
+                float3 ambient : TEXCOORD1;
+                LIGHTING_COORDS(2,3)
             };
+            
+            
             float2 _OldTexCoord;
             v2f vert (appdata v)
             {
+               
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
+                o.ambient = v.ambient;
                 if(_TimeLeft > 22 && _TimeLeft < 30){
                     v2f temp;
                     _OldTexCoord = o.uv;
@@ -81,7 +88,6 @@ Shader "Hidden/Rainbow"
                 if(o.uv[1] > 1){
                     o.uv[1] = o.uv[1]-1;
                 }
-                    
                 return o;
             }
 
@@ -91,6 +97,7 @@ Shader "Hidden/Rainbow"
             {
               //TODO: Write more complex shader -> raymarching & underwatereffect
               fixed4 col = tex2D(_MainTex, i.uv);
+              
               _Multiplier =  1-_TimeLeft/_MaxTime;
 
 
@@ -122,10 +129,19 @@ Shader "Hidden/Rainbow"
                    col.a = 0.2;
                    col = (col-0.5)*(0.3+0.8*0.9) + 0.5;
                }
+               
+               if(_Multiplier > 0.2 && _Multiplier < 0.7){
+                   col = (col-0.5)*(0.3+_Multiplier*0.9) + 0.5;
+               }else if (_Multiplier >= 0.7){
+                   col = (col-0.5)*(0.3+0.7*0.9) + 0.5;
+               }
+              
+               
                return col;
             }
 
             ENDCG
         }
     }
+    FallBack "Diffuse"
 }
