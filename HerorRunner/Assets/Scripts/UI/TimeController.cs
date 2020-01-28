@@ -11,6 +11,7 @@ public class TimeController : MonoBehaviour
     
     public RectTransform timeElapsedBar;
     public Text timeText;
+    public AudioSource audioSource;
     
     private float maxWidth;
     private float timeLeft;
@@ -37,11 +38,13 @@ public class TimeController : MonoBehaviour
         if (!timerStarted) return;
         
         timeElapsedBar.sizeDelta = new Vector3(maxWidth*(timeLeft/maxTime),14);
-        timeText.text = ((int)timeLeft).ToString();
+        timeText.text = ((int) timeLeft).ToString();
+            
         if ((timeLeft / maxTime) < 0.3f && (timeLeft / maxTime) > 0.29f)
             CameraShaderController.i.startTintAnimation();
         if (timeLeft <= 0)
         {
+            audioSource.PlayOneShot(audioSource.clip);
             timerStarted = false;
             onFinished?.Invoke();
         }

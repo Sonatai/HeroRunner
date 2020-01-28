@@ -8,12 +8,17 @@ public class Globals : MonoBehaviour
     public static int timerSeconds = 50;
     public static float gravity = -0.005f;
 
+    // public static int[] gridBorder =
+    // {
+    //     -35,
+    //     16,
+    //     32,
+    //     -22
+    // };
+    
     public static int[] gridBorder =
     {
-        -35,
-        16,
-        32,
-        -22
+        0,64,0,64
     };
 
     public static int injections = 0;

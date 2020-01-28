@@ -52,6 +52,8 @@ MonoBehaviour:
   collider: {fileID: 2021534249386997130}
   audioSource: {fileID: 6842328617197777861}
   soundclip: {fileID: 8300000, guid: efeb5b0ea51a9f045ba3a5e4e9c7a07e, type: 3}
+  jumping: 0.001
+  rotation: 4
 --- !u!65 &2021534249386997130
 BoxCollider:
   m_ObjectHideFlags: 0

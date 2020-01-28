@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Audio;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip smallJumpSound;
     public AudioClip bigJumpSound;
+    public AudioMixer audioMixer;
 
     public bool isMoving = true;
     
@@ -66,7 +68,7 @@ public class PlayerController : MonoBehaviour
     public void Reset()
     {
         isMoving = false;
-        transform.position = new Vector3(1.4f,15.5f,2f);
+        transform.position = new Vector3(34,16,32);
         MapController.i.mapFog(false);
         DOTween.Sequence().AppendInterval(0.1f).AppendCallback(delegate
         {
@@ -93,13 +95,14 @@ public class PlayerController : MonoBehaviour
             animation.wrapMode = WrapMode.Loop;
             animation.Play("run");
             isJumping = false;
+            audioMixer.DOSetFloat("HighPass", 10, 1);
             MapController.i.mapFog(false);
         }
         if (!isRotating)
         {
 
 
-            if (!Physics.Raycast(cPosition, transform.right, 2.5f))
+            if (!Physics.Raycast(cPosition, transform.right, 3f) || isJumping)
             {
                 if (Input.GetKeyDown("d"))
                 {
@@ -114,7 +117,7 @@ public class PlayerController : MonoBehaviour
                 rightWall = true;
             }
 
-            if (!Physics.Raycast(cPosition, transform.right * (-1), 2.5f))
+            if (!Physics.Raycast(cPosition, transform.right * (-1), 3f) || isJumping)
             {
                 if (Input.GetKeyDown("a"))
                 {
@@ -155,6 +158,7 @@ public class PlayerController : MonoBehaviour
                 currentEarthAcc = 1f;
                 MapController.i.mapFog(true);
                 camera.transform.DOLocalRotate(originalRoatation.eulerAngles + new Vector3(30, 0, 0),1f);
+                audioMixer.DOSetFloat("HighPass", 4000, 3);
                 audioSource.PlayOneShot(bigJumpSound);
             }
             
@@ -163,8 +167,10 @@ public class PlayerController : MonoBehaviour
                 Globals.speedUps--;
                 isSpeeding = true;
                 runSpeed = 0.3f;
+                audioMixer.DOSetFloat("Pitch", 2, 5);
                 DOTween.Sequence().AppendInterval(10f).AppendCallback(delegate
                 {
+                    audioMixer.DOSetFloat("Pitch", 1, 0.5f);
                     runSpeed = 0.1f;
                     isSpeeding = false;
                 });

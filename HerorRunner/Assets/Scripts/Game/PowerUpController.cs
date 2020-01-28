@@ -14,6 +14,8 @@ public class PowerUpController : MonoBehaviour
     private int type = 0;
     public AudioSource audioSource;
     public AudioClip soundclip;
+    public float jumping = 0.01f;
+    public float rotation = 4f;
 
     public Action onTouch;
 
@@ -35,8 +37,8 @@ public class PowerUpController : MonoBehaviour
     void FixedUpdate()
     {
         timer += Time.deltaTime;
-        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + transform.up*4f);
-        transform.position += transform.up * (float)Math.Sin(timer*3f) * 0.01f;
+        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + transform.up*rotation);
+        transform.position += transform.up * (float)Math.Sin(timer*3f) * jumping;
     }
     
     private void OnTriggerEnter(Collider other)

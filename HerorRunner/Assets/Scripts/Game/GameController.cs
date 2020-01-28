@@ -29,7 +29,7 @@ public class GameController : MonoBehaviour
     
     void Start()
     {
-        useableSpawnpoints = new List<Transform>(); //Calculation Function ist static.
+        useableSpawnpoints = new List<Transform>();
         foreach (Transform spawnpoint in listOfSpawnpoints)
         {
             useableSpawnpoints.Add(spawnpoint);
@@ -41,14 +41,8 @@ public class GameController : MonoBehaviour
             GameOverPanelController.i.fadeIn();
         };
         
-        powerups = new List<PowerUpController>();
-
-        for (int i = 0; i < 5; i++)
-        {
-            powerups.Add(spawnPowerUp(0, calculateSpawnpoint()));
-            powerups.Add(spawnPowerUp(1, calculateSpawnpoint()));
-            
-        }
+        Reset();
+        
     }
 
     private void Update()
@@ -67,11 +61,18 @@ public class GameController : MonoBehaviour
         DrugController.i.Reset();
         CameraShaderController.i.Reset();
         foreach (var c in powerups)
-        {
-            powerups.Remove(c);
             Destroy(c.gameObject);
-        }
+        powerups.Clear();
         
+        powerups = new List<PowerUpController>();
+
+        for (int i = 0; i < 7; i++)
+        {
+            powerups.Add(spawnPowerUp(0, calculateSpawnpoint()));
+            powerups.Add(spawnPowerUp(1, calculateSpawnpoint()));
+            
+        }
+
     }
     
     public static Vector2 calculateSpawnpoint()
@@ -81,7 +82,8 @@ public class GameController : MonoBehaviour
         Transform choosenSpawnpoint = useableSpawnpoints[Random.Range(0, useableSpawnpoints.Count)];
         /*Vector2 spawnpoint = new Vector2(Random.Range(Globals.gridBorder[0],Globals.gridBorder[1])+3f,
             Random.Range(Globals.gridBorder[2],Globals.gridBorder[3]+3f));*/
-        Vector2 spawnpoint = new Vector2(choosenSpawnpoint.position.x, choosenSpawnpoint.position.z);
+        //Vector2 spawnpoint = new Vector2(choosenSpawnpoint.position.x, choosenSpawnpoint.position.z);
+        Vector2 spawnpoint = new Vector2(((int)Random.Range(0,15)*4)+2,((int)Random.Range(0,15)*4)+2);
         Debug.Log("New Position: X/"+spawnpoint.x + " Z/" + spawnpoint.y);
         return spawnpoint;
     }
