@@ -14,8 +14,8 @@ public class GameController : MonoBehaviour
 
     public List<PowerUpController> powerups;
     public Text infoText;
+    [SerializeField] private List<Transform> listOfSpawnpoints;
 
-    
     private Action onSpeedUp = delegate { Globals.speedUps++; };
     
     private Action onBigJump = delegate { Globals.bigJumps++; };
