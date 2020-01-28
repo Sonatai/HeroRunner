@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     public List<PowerUpController> powerups;
     public Text infoText;
     [SerializeField] private List<Transform> listOfSpawnpoints;
+    private static List<Transform> useableSpawnpoints;
 
     private Action onSpeedUp = delegate { Globals.speedUps++; };
     
@@ -28,6 +29,12 @@ public class GameController : MonoBehaviour
     
     void Start()
     {
+        useableSpawnpoints = new List<Transform>(); //Calculation Function ist static.
+        foreach (Transform spawnpoint in listOfSpawnpoints)
+        {
+            useableSpawnpoints.Add(spawnpoint);
+            Debug.Log(useableSpawnpoints[useableSpawnpoints.Count-1]);
+        }
         TimeController.i.onFinished = delegate()
         {
             PlayerController.i.isMoving = false;
@@ -70,9 +77,12 @@ public class GameController : MonoBehaviour
     
     public static Vector2 calculateSpawnpoint()
     {
-        Vector2 spawnpoint = new Vector2(Random.Range(Globals.gridBorder[0],Globals.gridBorder[1])+3f,
-            Random.Range(Globals.gridBorder[2],Globals.gridBorder[3]+3f));
-        
+        if (useableSpawnpoints == null)
+            return new Vector2(-12.39f,19.62f);
+        Transform choosenSpawnpoint = useableSpawnpoints[Random.Range(0, useableSpawnpoints.Count)];
+        /*Vector2 spawnpoint = new Vector2(Random.Range(Globals.gridBorder[0],Globals.gridBorder[1])+3f,
+            Random.Range(Globals.gridBorder[2],Globals.gridBorder[3]+3f));*/
+        Vector2 spawnpoint = new Vector2(choosenSpawnpoint.position.x, choosenSpawnpoint.position.z);
         Debug.Log("New Position: X/"+spawnpoint.x + " Z/" + spawnpoint.y);
         return spawnpoint;
     }
