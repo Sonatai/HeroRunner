@@ -4,18 +4,10 @@ using UnityEngine;
 
 public class Globals : MonoBehaviour
 {
-    //... was 20sec
-    public static int timerSeconds = 70;
+  
+    public static int timerSeconds = 90;
     public static float gravity = -0.005f;
 
-    // public static int[] gridBorder =
-    // {
-    //     -35,
-    //     16,
-    //     32,
-    //     -22
-    // };
-    
     public static int[] gridBorder =
     {
         0,64,0,64

@@ -142,7 +142,7 @@ public class PlayerController : MonoBehaviour
                 jumpPressedTime = Time.time;
                 currentEarthAcc = 0.2f;
                 //MapController.i.mapFog(true);
-                TimeController.i.reduceTime(10);
+                TimeController.i.reduceTime(15);
                 audioSource.PlayOneShot(smallJumpSound);
 
             }

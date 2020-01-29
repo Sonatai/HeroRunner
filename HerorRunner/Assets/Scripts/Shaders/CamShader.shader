@@ -116,9 +116,9 @@ Shader "Hidden/Rainbow"
                    }
                 }
                 if(_TimeLeft <= _MaxTime/2){
-                     col.b = col.b + 0.7*cos(_TimeLeft-1.5);
+                     col.b = col.b + 0.7*cos(_TimeLeft-2);
                      col.g = col.g + 0.8*sin(0.4*_TimeLeft);
-                     col.r = col.r + 0.7*sin(0.4*(_TimeLeft-3));
+                     col.r = col.r + 0.7*sin(0.4*(_TimeLeft-5));
                 }
                
 
