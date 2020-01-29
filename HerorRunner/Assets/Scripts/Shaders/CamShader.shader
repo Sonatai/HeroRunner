@@ -102,16 +102,16 @@ Shader "Hidden/Rainbow"
 
 
                 if(_TimeLeft > _MaxTime/2){
-                   if(_TimeLeft<_MaxTime-16){
+                   if(_TimeLeft<_MaxTime-20){
                         col.b = col.b - _Multiplier/2;
                         
                    }
                    
-                   if(_TimeLeft < _MaxTime-13){
+                   if(_TimeLeft < _MaxTime-16){
                        col.g = col.g + _Multiplier/2;
                    }
                    
-                   if(_TimeLeft<_MaxTime-8){
+                   if(_TimeLeft<_MaxTime-10){
                         col.r = col.r + _Multiplier/4;                        
                    }
                 }
