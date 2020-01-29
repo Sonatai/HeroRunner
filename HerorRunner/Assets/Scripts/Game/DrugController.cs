@@ -7,9 +7,6 @@ using Random = UnityEngine.Random;
 
 public class DrugController : MonoBehaviour
 {
-
-    public GameObject drugModel;
-    public Vector2[] spawnLocations;
     private float timer = 0f;
     private Vector2 lastPosition;
     public AudioSource audioSource;
@@ -37,8 +34,6 @@ public class DrugController : MonoBehaviour
     private void spawn()
     {
         TimeController.i.startTimer(Globals.timerSeconds);
-        //Vector2 point;
-        //while ((point = spawnLocations[Random.Range(0, spawnLocations.Length)]).Equals(lastPosition)) ;
         Vector2 spawnpoint = GameController.calculateSpawnpoint();
         transform.position = new Vector3(spawnpoint.x,1.6f,spawnpoint.y);
     }

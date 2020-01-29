@@ -90,7 +90,6 @@ public class PlayerController : MonoBehaviour
         
         if (cController.isGrounded && isJumping && (Time.time - jumpPressedTime) >= 0.1f)
         {
-            Debug.Log("JUMP LANDED");
             camera.transform.DOLocalRotate(originalRoatation.eulerAngles,1f);
             animation.wrapMode = WrapMode.Loop;
             animation.Play("run");
@@ -102,7 +101,7 @@ public class PlayerController : MonoBehaviour
         {
 
 
-            if (!Physics.Raycast(cPosition, transform.right, 3f) || isJumping)
+            if (!Physics.Raycast(cPosition, transform.right, 3.9f) || isJumping)
             {
                 if (Input.GetKeyDown("d"))
                 {
@@ -117,7 +116,7 @@ public class PlayerController : MonoBehaviour
                 rightWall = true;
             }
 
-            if (!Physics.Raycast(cPosition, transform.right * (-1), 3f) || isJumping)
+            if (!Physics.Raycast(cPosition, transform.right * (-1), 3.9f) || isJumping)
             {
                 if (Input.GetKeyDown("a"))
                 {
@@ -141,7 +140,6 @@ public class PlayerController : MonoBehaviour
                 animation.Play("flip");
                 jumpPressedTime = Time.time;
                 currentEarthAcc = 0.2f;
-                //MapController.i.mapFog(true);
                 TimeController.i.reduceTime(15);
                 audioSource.PlayOneShot(smallJumpSound);
 
