@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     
     private bool isRotating = false;
     private bool searchForCenter = false;
-    private int centerFrames = 30; //amount of frames it takes to center
+    private int centerFrames = 15; //amount of frames it takes to center
     private int currentCenterFrames = 0;
     private float centerAmount = 0;
     private float turnSpeed = 0.2f;
@@ -172,7 +172,11 @@ public class PlayerController : MonoBehaviour
                     runSpeed = 0.1f;
                     isSpeeding = false;
                 });
+            }
 
+            if (Input.GetKeyDown("escape"))
+            {
+                TimeController.i.onFinished.Invoke();
             }
 
             if (Physics.Raycast(cPosition, transform.forward, 1f) && leftWall && rightWall &&!isRotating) //player hits dead end
